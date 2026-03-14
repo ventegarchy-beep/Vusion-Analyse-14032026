@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VU · Vusion — Analyse Forum · 14/03/2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #04060f;
+    --surface: #080c18;
+    --surface2: #0d1220;
+    --surface3: #111828;
+    --border: #1a2240;
+    --border2: #1e2a50;
+    --text: #c8d4f0;
+    --text-dim: #8892c0;
+    --text-muted: #5a6490;
+    --green: #34d399;
+    --blue: #38bdf8;
+    --yellow: #fbbf24;
+    --red: #f87171;
+    --violet: #c084fc;
+    --teal: #2dd4bf;
+    --orange: #fb923c;
+    --green-bg: rgba(52,211,153,0.08);
+    --blue-bg: rgba(56,189,248,0.08);
+    --yellow-bg: rgba(251,191,36,0.08);
+    --red-bg: rgba(248,113,113,0.08);
+    --violet-bg: rgba(192,132,252,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Exo 2', sans-serif; font-size: 15px; line-height: 1.65; min-height: 100vh; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(251,146,60,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(251,146,60,0.02) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; z-index: 0; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+  .hero { padding: 56px 0 40px; border-bottom: 1px solid var(--border); }
+  .hero-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .badge { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .badge-ticker { background: rgba(251,146,60,0.15); color: var(--orange); border: 1px solid rgba(251,146,60,0.3); }
+  .badge-place  { background: var(--surface2); color: var(--text-dim); border: 1px solid var(--border); }
+  .badge-pea    { background: rgba(52,211,153,0.12); color: var(--green); border: 1px solid rgba(52,211,153,0.3); }
+  .badge-sbf    { background: rgba(56,189,248,0.12); color: var(--blue); border: 1px solid rgba(56,189,248,0.3); }
+  .badge-warn   { background: rgba(248,113,113,0.12); color: var(--red); border: 1px solid rgba(248,113,113,0.3); }
+  .hero-title { font-size: 38px; font-weight: 800; letter-spacing: -0.02em; color: #e8eeff; line-height: 1.1; margin-bottom: 10px; }
+  .hero-tagline { font-size: 17px; color: var(--orange); font-weight: 500; margin-bottom: 28px; letter-spacing: 0.01em; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 28px; align-items: center; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; }
+  .meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .meta-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; font-family: 'JetBrains Mono', monospace; }
+  .meta-value { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--text); }
+  .meta-value.cours { color: var(--red); font-size: 18px; }
+  .disclaimer { font-size: 12px; color: var(--text-muted); padding: 10px 16px; background: var(--surface); border-left: 3px solid var(--border2); border-radius: 0 4px 4px 0; font-style: italic; }
+  section { padding: 40px 0; border-bottom: 1px solid var(--border); }
+  .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+  .section-icon { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 16px; flex-shrink: 0; }
+  .section-title { font-size: 20px; font-weight: 700; color: #dde8ff; letter-spacing: -0.01em; }
+  .section-sub { font-size: 12px; color: var(--text-dim); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+  .alerts { display: flex; flex-direction: column; gap: 12px; }
+  .alert { padding: 16px 20px; border-radius: 8px; border-left: 4px solid; display: flex; gap: 14px; align-items: flex-start; }
+  .alert-green  { background: var(--green-bg);  border-color: var(--green); }
+  .alert-blue   { background: var(--blue-bg);   border-color: var(--blue); }
+  .alert-yellow { background: var(--yellow-bg); border-color: var(--yellow); }
+  .alert-red    { background: var(--red-bg);    border-color: var(--red); }
+  .alert-violet { background: var(--violet-bg); border-color: var(--violet); }
+  .alert-orange { background: rgba(251,146,60,0.08); border-color: var(--orange); }
+  .alert-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .alert-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .alert-green  .alert-title { color: var(--green); }
+  .alert-blue   .alert-title { color: var(--blue); }
+  .alert-yellow .alert-title { color: var(--yellow); }
+  .alert-red    .alert-title { color: var(--red); }
+  .alert-violet .alert-title { color: var(--violet); }
+  .alert-orange .alert-title { color: var(--orange); }
+  .alert-text { font-size: 13.5px; color: var(--text-dim); line-height: 1.55; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; transition: border-color 0.2s; }
+  .kpi-card:hover { border-color: var(--border2); }
+  .kpi-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.07em; font-family: 'JetBrains Mono', monospace; margin-bottom: 8px; }
+  .kpi-value { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; color: #e0e8ff; margin-bottom: 4px; }
+  .kpi-delta { font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+  .kpi-delta.up   { color: var(--green); }
+  .kpi-delta.down { color: var(--red); }
+  .kpi-delta.warn { color: var(--yellow); }
+  .kpi-delta.info { color: var(--blue); }
+  .kpi-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th { background: var(--surface2); color: var(--text-dim); font-weight: 600; padding: 10px 14px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; font-family: 'JetBrains Mono', monospace; border-bottom: 1px solid var(--border); }
+  td { padding: 11px 14px; border-bottom: 1px solid var(--border); color: var(--text-dim); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.015); }
+  .td-name { color: var(--text); font-weight: 600; }
+  .td-green { color: var(--green); font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+  .td-blue  { color: var(--blue);  font-family: 'JetBrains Mono', monospace; }
+  .td-yellow{ color: var(--yellow);font-family: 'JetBrains Mono', monospace; }
+  .td-red   { color: var(--red);   font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+  .td-violet{ color: var(--violet);font-family: 'JetBrains Mono', monospace; }
+  .td-teal  { color: var(--teal);  font-family: 'JetBrains Mono', monospace; }
+  .td-orange{ color: var(--orange);font-family: 'JetBrains Mono', monospace; }
+  .td-mono  { font-family: 'JetBrains Mono', monospace; }
+  .tag { display: inline-block; font-size: 10px; font-family: 'JetBrains Mono', monospace; padding: 2px 8px; border-radius: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+  .tag-green  { background: rgba(52,211,153,0.15);  color: var(--green); }
+  .tag-blue   { background: rgba(56,189,248,0.15);  color: var(--blue); }
+  .tag-yellow { background: rgba(251,191,36,0.15);  color: var(--yellow); }
+  .tag-red    { background: rgba(248,113,113,0.15); color: var(--red); }
+  .tag-violet { background: rgba(192,132,252,0.15); color: var(--violet); }
+  .tag-teal   { background: rgba(45,212,191,0.15);  color: var(--teal); }
+  .tag-orange { background: rgba(251,146,60,0.15);  color: var(--orange); }
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before { content: ''; position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .tl-item { position: relative; padding: 0 0 24px 24px; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-dot { position: absolute; left: -10px; top: 6px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid; background: var(--bg); }
+  .tl-dot-green  { border-color: var(--green);  background: rgba(52,211,153,0.3); }
+  .tl-dot-blue   { border-color: var(--blue);   background: rgba(56,189,248,0.3); }
+  .tl-dot-yellow { border-color: var(--yellow); background: rgba(251,191,36,0.3); }
+  .tl-dot-red    { border-color: var(--red);    background: rgba(248,113,113,0.3); }
+  .tl-dot-violet { border-color: var(--violet); background: rgba(192,132,252,0.3); }
+  .tl-dot-orange { border-color: var(--orange); background: rgba(251,146,60,0.3); }
+  .tl-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+  .tl-title { font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 4px; }
+  .tl-text  { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+  .fib-header { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .fib-stat { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .fib-stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; font-family: 'JetBrains Mono', monospace; }
+  .fib-stat-value { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; color: #e0e8ff; margin-top: 4px; }
+  .fib-row { display: grid; grid-template-columns: 80px 1fr 100px; align-items: center; gap: 14px; margin-bottom: 8px; }
+  .fib-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); text-align: right; }
+  .fib-bar-bg { height: 8px; background: var(--surface2); border-radius: 4px; position: relative; overflow: hidden; }
+  .fib-bar-fill { height: 100%; border-radius: 4px; }
+  .fib-price { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; }
+  .fib-cursor { position: absolute; top: -3px; bottom: -3px; width: 3px; background: var(--red); border-radius: 2px; box-shadow: 0 0 8px var(--red); }
+  .fib-note { background: var(--red-bg); border: 1px solid rgba(248,113,113,0.2); border-radius: 8px; padding: 14px 18px; font-size: 13px; color: var(--text-dim); margin-top: 16px; }
+  .fib-note strong { color: var(--red); }
+  .perspectives-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .persp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .persp-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .persp-label { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; font-family: 'JetBrains Mono', monospace; }
+  .persp-horizon { font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+  .persp-horizon.ct { color: var(--teal); }
+  .persp-horizon.mt { color: var(--blue); }
+  .persp-horizon.lt { color: var(--violet); }
+  .persp-list { list-style: none; }
+  .persp-list li { font-size: 13px; color: var(--text-dim); padding: 7px 0; padding-left: 18px; border-bottom: 1px solid var(--border); position: relative; line-height: 1.45; }
+  .persp-list li:last-child { border-bottom: none; }
+  .persp-list li::before { content: '›'; position: absolute; left: 4px; font-weight: 700; }
+  .persp-list li.pos::before { color: var(--green); }
+  .persp-list li.neg::before { color: var(--red); }
+  .persp-list li.warn::before { color: var(--yellow); }
+  .verdict-box { border-radius: 10px; padding: 24px; border: 1px solid; margin-bottom: 20px; }
+  .verdict-box.bullish { background: rgba(52,211,153,0.07); border-color: rgba(52,211,153,0.25); }
+  .verdict-box.neutral { background: rgba(251,191,36,0.07); border-color: rgba(251,191,36,0.25); }
+  .verdict-box.bearish { background: rgba(248,113,113,0.07); border-color: rgba(248,113,113,0.25); }
+  .verdict-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+  .verdict-box.bullish .verdict-title { color: var(--green); }
+  .verdict-box.neutral .verdict-title { color: var(--yellow); }
+  .verdict-box.bearish .verdict-title { color: var(--red); }
+  .verdict-text { font-size: 14px; color: var(--text-dim); line-height: 1.65; }
+  .key-levels { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .level-tag { display: flex; flex-direction: column; gap: 2px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; min-width: 110px; }
+  .level-tag-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; font-family: 'JetBrains Mono', monospace; }
+  .level-tag-value { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; }
+  .level-tag.support .level-tag-value { color: var(--green); }
+  .level-tag.resist  .level-tag-value { color: var(--orange); }
+  .level-tag.target  .level-tag-value { color: var(--blue); }
+  .level-tag.stop    .level-tag-value { color: var(--red); }
+  .level-tag.current .level-tag-value { color: var(--yellow); }
+  .source { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); background: var(--surface2); padding: 2px 6px; border-radius: 3px; display: inline-block; margin-left: 4px; font-style: normal; }
+  .warn-box { background: var(--yellow-bg); border: 1px solid rgba(251,191,36,0.2); border-left: 4px solid var(--yellow); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 12.5px; color: #b09a50; margin: 12px 0; }
+  .warn-box strong { color: var(--yellow); }
+  .info-box { background: var(--blue-bg); border: 1px solid rgba(56,189,248,0.2); border-left: 4px solid var(--blue); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 12.5px; color: var(--text-dim); margin: 12px 0; }
+  .company-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+  .company-desc { font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+  .company-desc p { margin-bottom: 14px; }
+  .company-desc p:last-child { margin-bottom: 0; }
+  .fact-item { padding: 10px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; gap: 12px; }
+  .fact-item:last-child { border-bottom: none; }
+  .fact-label { font-size: 12px; color: var(--text-muted); }
+  .fact-value { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text); text-align: right; }
+  .rec-buy    { color: var(--green); font-weight: 700; font-size: 12px; }
+  .rec-strong { color: #22c55e; font-weight: 700; font-size: 12px; }
+  footer { padding: 32px 0 40px; text-align: center; color: var(--text-muted); font-size: 12px; line-height: 1.8; }
+  footer strong { color: var(--text-dim); }
+  @media (max-width: 768px) { .hero-title { font-size: 28px; } .fib-header { grid-template-columns: 1fr 1fr; } .perspectives-grid { grid-template-columns: 1fr; } .company-grid { grid-template-columns: 1fr; } .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  .c-green  { color: var(--green); }
+  .c-blue   { color: var(--blue); }
+  .c-yellow { color: var(--yellow); }
+  .c-red    { color: var(--red); }
+  .c-orange { color: var(--orange); }
+  b { color: var(--text); }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="hero">
+    <div class="hero-badges">
+      <span class="badge badge-ticker">VU</span>
+      <span class="badge badge-place">Euronext Paris · SBF 120</span>
+      <span class="badge badge-pea">✓ PEA Éligible</span>
+      <span class="badge badge-sbf">FR0010282822</span>
+      <span class="badge badge-warn">⚠ RSI 24 · SURVENTE EXTRÊME</span>
+    </div>
+    <h1 class="hero-title">VUSION <span style="font-size:22px;color:var(--text-dim);font-weight:400;">(ex VusionGroup)</span></h1>
+    <p class="hero-tagline">Leader mondial des étiquettes électroniques & digitalisation du commerce physique augmentée par l'IA</p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-label">Date d'analyse</span><span class="meta-value">14 mars 2026</span></div>
+      <div class="meta-item"><span class="meta-label">Cours · PRT 13/03</span><span class="meta-value cours">110,50 €</span></div>
+      <div class="meta-item"><span class="meta-label">Plus haut 52S</span><span class="meta-value" style="color:var(--text-muted);">278,00 €</span></div>
+      <div class="meta-item"><span class="meta-label">Plus bas 52S</span><span class="meta-value" style="color:var(--red);">105,10 €</span></div>
+      <div class="meta-item"><span class="meta-label">Capitalisation</span><span class="meta-value">~1,86 Mds€</span></div>
+      <div class="meta-item"><span class="meta-label">Secteur</span><span class="meta-value">IoT · Retail Tech · IA</span></div>
+      <div class="meta-item"><span class="meta-label">Prochain RDV</span><span class="meta-value" style="color:var(--blue);">CA T1 : 21/04/2026</span></div>
+    </div>
+    <div class="disclaimer">⚠️ <strong>NPC — Pas un Conseil en Placement.</strong> Analyse réalisée à titre informatif. Sources publiques uniquement. Vusion est une valeur SBF 120 à forte volatilité récente (-60% depuis le pic). Aucun conseil d'achat ou de vente. Faites vos propres recherches.</div>
+  </div>
+</div>
+
+<!-- ALERTES -->
+<div class="container">
+  <section>
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(248,113,113,0.1);">🚨</div>
+      <div><div class="section-title">Points clés du moment</div><div class="section-sub">Alertes prioritaires · 14/03/2026</div></div>
+    </div>
+    <div class="alerts">
+
+      <div class="alert alert-red">
+        <span class="alert-icon">🔴</span>
+        <div class="alert-body">
+          <div class="alert-title">DÉCROCHAGE TECHNIQUE MAJEUR : -60% depuis le pic · Cours sous tous les supports Fibonacci</div>
+          <p class="alert-text">Le cours (110,50€ au 13/03/2026) se situe <b>sous le 23,6% Fibonacci long terme (115,95€)</b> — zone sans support Fibonacci identifié. Le titre a perdu <b>-60% depuis son plus haut historique de 278,49€</b> et -45% sur un an, malgré une performance opérationnelle record. RSI hebdomadaire à <b>24,10 → survente extrême</b>. MACD à -33,64, très négatif. Signal technique de capitulation en cours. <em class="source">PRT 13/03/2026</em></p>
+        </div>
+      </div>
+
+      <div class="alert alert-orange">
+        <span class="alert-icon">🟠</span>
+        <div class="alert-body">
+          <div class="alert-title">⚠️ GUIDANCE 2026 DÉCEVANTE vs attentes · Ralentissement prévu +15/+20% vs +51% en 2025</div>
+          <p class="alert-text">Malgré des résultats FY2025 excellents (CA +51%, EBITDA +73%), la guidance 2026 (+15-20%) a été perçue comme un fort ralentissement par le marché. <b>Le « mur Walmart »</b> est en discussion (le déploiement US ralentit après la vague initiale). L'EMEA recule de -25% au T4 2025. <b>Le PDG Thierry Gadou a déclaré le 2/03/2026 : "La Bourse est déconnectée de notre performance"</b> — signe d'une incompréhension marché/entreprise. <em class="source">Résultats FY2025 · 26/02/2026</em></p>
+        </div>
+      </div>
+
+      <div class="alert alert-red">
+        <span class="alert-icon">🔴</span>
+        <div class="alert-body">
+          <div class="alert-title">WALMART réduit sa participation → signal négatif symbolique fort</div>
+          <p class="alert-text">Walmart a cédé 650 000 actions Vusion via placement privé accéléré avec <b>décote par rapport au cours</b> — événement documenté ayant provoqué une chute du titre. Walmart reste actionnaire mais la réduction de participation par le client le plus stratégique du groupe a été très mal interprétée par le marché. <em class="source">Reuters / Boursorama · date : ~janv-fév 2026</em></p>
+        </div>
+      </div>
+
+      <div class="alert alert-yellow">
+        <span class="alert-icon">🟡</span>
+        <div class="alert-body">
+          <div class="alert-title">⚠️ Droits de douane Trump · Risque chaîne d'approvisionnement · Guidances "à taux constants"</div>
+          <p class="alert-text">Vusion assemble ses ESLs principalement via des EMS (assembleurs en Asie, dont Chine). Trump a relevé la surtaxe mondiale à 15% après invalidation partielle par la Cour suprême — incertitude persistante. La guidance 2026 est exprimée "<b>à taux de change et droits de douane constants</b>", ce qui signifie qu'un durcissement des tarifs dégraderait la performance réelle. La zone Amériques représente ~73% du CA — fortement exposée. <em class="source">CP FY2025 · 26/02/2026</em></p>
+        </div>
+      </div>
+
+      <div class="alert alert-green">
+        <span class="alert-icon">🟢</span>
+        <div class="alert-body">
+          <div class="alert-title">✅ RACHAT D'ACTIONS 30 M€ lancé · Signal de confiance du management</div>
+          <p class="alert-text">Vusion a lancé le 3 mars 2026 un programme de rachat d'actions pour un montant maximum de <b>30 millions d'euros</b> — geste fort du management signifiant que le cours est jugé trop bas. Trésorerie nette de <b>439 M€</b> : bilan très solide permettant ce geste sans risque financier. <em class="source">Vusion CP 03/03/2026</em></p>
+        </div>
+      </div>
+
+      <div class="alert alert-green">
+        <span class="alert-icon">🟢</span>
+        <div class="alert-body">
+          <div class="alert-title">✅ CARREFOUR : partenariat stratégique signé (18/02/2026) · Retour en EMEA</div>
+          <p class="alert-text">Premier déploiement à grande échelle simultané en Europe d'EdgeSense + Vusion Cloud + Captana pour <b>digitaliser l'intégralité du parc d'hypermarchés et supermarchés Carrefour en France d'ici 2030</b>. Création d'un laboratoire commun d'innovation. Signal fort du redémarrage commercial EMEA après la faiblesse T4 2025. <em class="source">Vusion CP 18/02/2026</em></p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- KPIs -->
+<div class="container">
+  <section>
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(56,189,248,0.1);">📊</div>
+      <div><div class="section-title">Métriques clés</div><div class="section-sub">FY2025 · Sources officielles · 26/02/2026</div></div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">CA ajusté FY2025</div>
+        <div class="kpi-value">1 527 M€</div>
+        <div class="kpi-delta up">↑ +51% vs FY2024</div>
+        <div class="kpi-sub">CA IFRS : 1 472 M€ (+54%) · Q4 record >500 M€</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">EBITDA ajusté FY2025</div>
+        <div class="kpi-value">277 M€</div>
+        <div class="kpi-delta up">↑ +73% · Marge 18,2%</div>
+        <div class="kpi-sub">EBITDA IFRS : 223 M€ (+113%) · +2,3 pts de marge</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Résultat net ajusté</div>
+        <div class="kpi-value">99 M€</div>
+        <div class="kpi-delta up">↑ +85% · 1ère année nettement positive</div>
+        <div class="kpi-sub">RN IFRS : 84 M€ (vs -29 M€ en 2024)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Free Cash-Flow</div>
+        <div class="kpi-value">56 M€</div>
+        <div class="kpi-delta up">↑ Génération positive</div>
+        <div class="kpi-sub">Operating FCF : 212 M€ (+84%) · Trésorerie nette 439 M€</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Trésorerie nette</div>
+        <div class="kpi-value">439 M€</div>
+        <div class="kpi-delta up">↑ vs 393 M€ fin 2024</div>
+        <div class="kpi-sub">Bilan sain · Zéro stress financier · Rachat 30 M€ possible</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Prises de commandes 2025</div>
+        <div class="kpi-value">1,7 Md€</div>
+        <div class="kpi-delta up">↑ +5% vs 2024 (1,628 Md€)</div>
+        <div class="kpi-sub">Book-to-bill >100% · Carnet de commandes record</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">CA VAS (récurrent)</div>
+        <div class="kpi-value">211 M€</div>
+        <div class="kpi-delta up">↑ ×2 en 2025 · 14% du CA</div>
+        <div class="kpi-sub">VAS récurrent : 83 M€ (+45%) · Enjeu stratégique LT</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Dividende 2026 (/ 2025)</div>
+        <div class="kpi-value">0,90 €</div>
+        <div class="kpi-delta up">↑ vs 0,60 € en 2025</div>
+        <div class="kpi-sub">Rendement ~0,8% au cours actuel · Signal de confiance</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PRÉSENTATION SOCIÉTÉ -->
+<div class="container">
+  <section>
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(45,212,191,0.1);">🏢</div>
+      <div><div class="section-title">Présentation société</div><div class="section-sub">Vusion SA (ex VusionGroup) · Nanterre · Fondée 1992</div></div>
+    </div>
+    <div class="company-grid">
+      <div class="company-desc">
+        <p>
+          Vusion (rebaptisée en janvier 2026) est le <b>leader mondial incontesté des solutions de digitalisation du commerce physique</b> par intelligence artificielle. Née de l'activité ESL (Electronic Shelf Labels) pionnière fondée en 1992, la société a radicalement transformé son modèle depuis 2020 pour devenir une plateforme IoT/Cloud/IA multidimensionnelle servie sur abonnement.
+        </p>
+        <p>
+          La société déploie un <b>écosystème intégré unique</b> : étiquettes électroniques (SESimagotag), plateforme VusionCloud (IoT temps réel), EdgeSense (IA en rayon), Captana (vision par ordinateur, disponibilité rayon), Engage (retail media in-store). <b>350+ grands groupes de distribution clients</b>, dont Walmart (US, ~73% du CA), Carrefour, Morrisons (UK), DM-drogerie (Allemagne).
+        </p>
+        <p>
+          Le modèle économique évolue vers un <b>modèle récurrent SaaS-like (VAS)</b> qui représente désormais 14% du CA et double chaque année. C'est l'enjeu principal pour la valorisation à long terme — passer d'un modèle de déploiement hardware à un modèle d'abonnements à forte marge.
+        </p>
+        <p>
+          <b>Concurrents :</b> Pricer (Suède, coté), Hanshow (Chine, non coté), SoluM/Samsung (Corée), Altierre. Vusion dispose d'une avance technologique et commerciale significative, en particulier aux États-Unis via le contrat Walmart et en Asie-Pacifique.
+        </p>
+      </div>
+      <div>
+        <div class="fact-item"><span class="fact-label">Siège</span><span class="fact-value">Nanterre, France</span></div>
+        <div class="fact-item"><span class="fact-label">Fondation</span><span class="fact-value">1992</span></div>
+        <div class="fact-item"><span class="fact-label">Employés</span><span class="fact-value">~1 000</span></div>
+        <div class="fact-item"><span class="fact-label">PDG</span><span class="fact-value">Thierry Gadou</span></div>
+        <div class="fact-item"><span class="fact-label">Indices</span><span class="fact-value">SBF 120</span></div>
+        <div class="fact-item"><span class="fact-label">Clients phares</span><span class="fact-value">Walmart · Carrefour · Morrisons</span></div>
+        <div class="fact-item"><span class="fact-label">Zone #1</span><span class="fact-value">Amériques + APAC ~73%</span></div>
+        <div class="fact-item"><span class="fact-label">Zone #2</span><span class="fact-value">EMEA ~27%</span></div>
+        <div class="fact-item"><span class="fact-label">Proch. publ.</span><span class="fact-value" style="color:var(--blue);">CA T1 : 21/04/2026</span></div>
+        <div class="fact-item"><span class="fact-label">AG</span><span class="fact-value">4 juin 2026</span></div>
+        <div class="fact-item"><span class="fact-label">S1 2026</span><span class="fact-value">30 juillet 2026</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CHRONOLOGIE -->
+<div class="container">
+  <section>
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(52,211,153,0.1);">📅</div>
+      <div><div class="section-title">Chronologie des 14 derniers mois</div><div class="section-sub">Événements clés · Jan 2025 → Mars 2026</div></div>
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-green"></div>
+        <div class="tl-date">26 Février 2025</div>
+        <div class="tl-title">✅ Résultats FY2024 · CA ajusté dépassant 1 Md€ · FCF record 391 M€</div>
+        <div class="tl-text">CA ajusté 1 Mds€ franchis. Trésorerie nette 393 M€. Prises de commandes +71% à 1,628 Mds€. Guidance 2025 : CA ~1,5 Mds€ (+40%). Dividende 0,60€. <em class="source">Vusion CP officiel</em></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-blue"></div>
+        <div class="tl-date">15 Septembre 2025</div>
+        <div class="tl-title">📊 Résultats S1 2025 · Trésorerie 513 M€ · Guidance relevée</div>
+        <div class="tl-text">FCF +192 M€ au S1 · Trésorerie nette 513 M€ (+120 M€ vs fin 2024). Guidance marge EBITDA ajusté révisée à +200/+300 bps (vs +100/+200 bps). <em class="source">Vusion CP 15/09/2025</em></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-green"></div>
+        <div class="tl-date">22 Octobre 2025</div>
+        <div class="tl-title">✅ CA T3 2025 : +59% · Contrat Morrisons UK (497 supermarchés, 10,8M ESLs)</div>
+        <div class="tl-text">CA T3 ajusté 355 M€ (+59%). 9 mois 1 005 M€ ajusté (+54%). Nouveau contrat majeur avec Morrisons UK. Perspectives 2025 confirmées. <em class="source">Vusion CP 22/10/2025</em></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-red"></div>
+        <div class="tl-date">Nov. – Déc. 2025</div>
+        <div class="tl-title">🔴 Début du décrochage boursier · -40% en 3 mois</div>
+        <div class="tl-text">Malgré de très bons résultats, le cours commence à chuter fortement. Facteurs identifiés : inquiétude sur la guidance 2026, doutes sur la durabilité du contrat Walmart, impact possible des tarifs Trump sur les EMS asiatiques, rotation sectorielle. <em class="source">Analyses de marché</em></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-red"></div>
+        <div class="tl-date">Janvier 2026</div>
+        <div class="tl-title">🔴 Walmart cède 650 000 actions Vusion · Chute supplémentaire</div>
+        <div class="tl-text">Walmart procède à la cession de 650 000 actions par placement accéléré avec décote. Événement symboliquement très négatif bien que Walmart reste actionnaire. Le titre accélère sa baisse. <em class="source">Reuters / Boursorama</em></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-blue"></div>
+        <div class="tl-date">Janvier 2026</div>
+        <div class="tl-title">ℹ️ Vusion SA — Changement de nom (ex VusionGroup SA)</div>
+        <div class="tl-text">Changement officiel de dénomination sociale de VusionGroup SA en Vusion SA. Même ticker VU, même ISIN. <em class="source">Yahoo Finance</em></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-green"></div>
+        <div class="tl-date">18 Février 2026</div>
+        <div class="tl-title">✅ Partenariat stratégique Carrefour signé · 1er grand contrat EMEA 2026</div>
+        <div class="tl-text">Digitalisation intégrale des hypermarchés et supermarchés Carrefour France d'ici 2030. EdgeSense + Vusion Cloud + Captana. Laboratoire commun d'innovation. Signal fort de reprise EMEA. <em class="source">Vusion CP 18/02/2026</em></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-green"></div>
+        <div class="tl-date">26 Février 2026</div>
+        <div class="tl-title">✅ Résultats FY2025 très solides · Guidance 2026 perçue comme décevante</div>
+        <div class="tl-text">CA ajusté 1 527 M€ (+51%), EBITDA ajusté 277 M€ (+73%), RN ajusté 99 M€ (+85%), trésorerie 439 M€, FCF 56 M€. Guidance 2026 : +15-20% CA (vs +51% en 2025) — perçu comme ralentissement par le marché. Dividende 0,90€. <em class="source">Vusion CP officiel</em></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-orange"></div>
+        <div class="tl-date">2 Mars 2026</div>
+        <div class="tl-title">⚠️ Thierry Gadou : "La Bourse est déconnectée de notre performance"</div>
+        <div class="tl-text">Le PDG prend la parole publiquement sur Ecorama pour dénoncer le décrochage boursier. Cours à 113,50€, sous le support des 115,30€. Analyse Zonebourse : "prochain soutien vers 99€". <em class="source">Ecorama 02/03/2026 · Zonebourse</em></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-green"></div>
+        <div class="tl-date">3 Mars 2026</div>
+        <div class="tl-title">✅ Rachat d'actions · 30 millions d'euros · Signal de confiance</div>
+        <div class="tl-text">Vusion annonce le lancement d'un programme de rachat pour un montant maximum de 30 M€. Réaction haussière initiale (+5%) rattrapée par le marché. <em class="source">Vusion CP 03/03/2026</em></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-blue"></div>
+        <div class="tl-date">12 Mars 2026</div>
+        <div class="tl-title">ℹ️ Visioconférence investisseurs particuliers · 18h00</div>
+        <div class="tl-text">Vusion organise une visioconférence pour ses actionnaires et investisseurs particuliers. Occasion de rappeler la performance opérationnelle vs la déconnexion boursière. <em class="source">Vusion CP 06/03/2026</em></div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- ANALYSE TECHNIQUE -->
+<div class="container">
+  <section>
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(248,113,113,0.1);">📈</div>
+      <div><div class="section-title">Analyse technique</div><div class="section-sub">Graphique hebdomadaire PRT · Dernier tick 13/03/2026</div></div>
+    </div>
+
+    <div class="info-box">
+      ℹ️ <strong>Note de tracé :</strong> Analyse basée sur le graphique hebdomadaire ProRealTime fourni (dernier tick 13/03/2026, cours 110,50€). Fibonacci long terme tracé depuis le <strong>plancher absolu visible 65,74€ (0%)</strong> vers le <strong>plus haut historique 278,49€ (100%)</strong>. Tous les niveaux PRT ont été vérifiés mathématiquement ci-dessous — ils sont exacts.
+    </div>
+
+    <div class="fib-header" style="margin-top:20px;">
+      <div class="fib-stat">
+        <div class="fib-stat-label">Cours · Dernier tick PRT</div>
+        <div class="fib-stat-value" style="color:var(--red);">110,50 € · -2,99%</div>
+      </div>
+      <div class="fib-stat">
+        <div class="fib-stat-label">RSI (14) · PRT hebdo</div>
+        <div class="fib-stat-value" style="color:var(--red);">24,10 🔴 SURVENTE EXTRÊME</div>
+      </div>
+      <div class="fib-stat">
+        <div class="fib-stat-label">MACD Zéro Lag (12 26 9)</div>
+        <div class="fib-stat-value" style="color:var(--red);">-33,642 Très négatif</div>
+      </div>
+    </div>
+
+    <h3 style="color:var(--text-dim); font-size:13px; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px; font-family:'JetBrains Mono', monospace; margin-top:20px;">
+      FIBONACCI LONG TERME PRT : Plancher 65,74€ (0%) → Plus haut 278,49€ (100%)
+    </h3>
+
+    <div class="warn-box">
+      <strong>✅ Vérification mathématique complète des niveaux PRT :</strong><br>
+      Move = 278,49 – 65,74 = <strong>212,75€</strong><br>
+      23,6% = 65,74 + (212,75 × 0,236) = 65,74 + 50,21 = <strong>115,95€ ✓</strong><br>
+      38,2% = 65,74 + (212,75 × 0,382) = 65,74 + 81,27 = <strong>147,01€ ✓</strong><br>
+      50,0% = 65,74 + (212,75 × 0,500) = 65,74 + 106,38 = <strong>172,12€ ✓</strong><br>
+      61,8% = 65,74 + (212,75 × 0,618) = 65,74 + 131,48 = <strong>197,22€ ✓</strong><br>
+      → <strong>Tracé PRT mathématiquement exact sur tous les niveaux.</strong><br>
+      Cours 110,50€ = (110,50 – 65,74) / 212,75 = 44,76 / 212,75 = <strong>21,0% du move → SOUS le 23,6% (115,95€)</strong>
+    </div>
+
+    <!-- Fibonacci bars -->
+    <div style="margin-top:20px;">
+      <div class="fib-row">
+        <div class="fib-label" style="color:var(--text-muted);">0 % · Base</div>
+        <div class="fib-bar-bg"><div class="fib-bar-fill" style="width:3%;background:var(--text-muted);"></div></div>
+        <div class="fib-price" style="color:var(--text-muted);">65,74 €</div>
+      </div>
+      <!-- Cours actuel : 21% — entre 0% et 23,6% -->
+      <div class="fib-row">
+        <div class="fib-label" style="color:var(--red);font-weight:700;">← COURS</div>
+        <div class="fib-bar-bg">
+          <div class="fib-bar-fill" style="width:21%;background:rgba(248,113,113,0.5);"></div>
+          <div class="fib-cursor" style="left:calc(21% - 1.5px);"></div>
+        </div>
+        <div class="fib-price" style="color:var(--red);font-weight:700;">110,50€ · 21%</div>
+      </div>
+      <div class="fib-row">
+        <div class="fib-label" style="color:var(--orange);">23,6 % ▲ Résist.</div>
+        <div class="fib-bar-bg"><div class="fib-bar-fill" style="width:23.6%;background:var(--orange);"></div></div>
+        <div class="fib-price" style="color:var(--orange);">115,95 € ✓</div>
+      </div>
+      <div class="fib-row">
+        <div class="fib-label" style="color:var(--yellow);">38,2 %</div>
+        <div class="fib-bar-bg"><div class="fib-bar-fill" style="width:38.2%;background:var(--yellow);"></div></div>
+        <div class="fib-price" style="color:var(--yellow);">147,01 € ✓</div>
+      </div>
+      <div class="fib-row">
+        <div class="fib-label" style="color:var(--teal);">50 % Pivot</div>
+        <div class="fib-bar-bg"><div class="fib-bar-fill" style="width:50%;background:var(--teal);"></div></div>
+        <div class="fib-price" style="color:var(--teal);">172,12 € ✓</div>
+      </div>
+      <div class="fib-row">
+        <div class="fib-label" style="color:var(--green);">61,8% ★ GR</div>
+        <div class="fib-bar-bg"><div class="fib-bar-fill" style="width:61.8%;background:var(--green);"></div></div>
+        <div class="fib-price" style="color:var(--green);">197,22 € ✓</div>
+      </div>
+      <div class="fib-row">
+        <div class="fib-label" style="color:var(--violet);">100% · Pic</div>
+        <div class="fib-bar-bg"><div class="fib-bar-fill" style="width:100%;background:var(--violet);"></div></div>
+        <div class="fib-price" style="color:var(--violet);">278,49 € ✓</div>
+      </div>
+    </div>
+
+    <div class="fib-note">
+      <strong>🔴 Analyse de positionnement — Configuration de capitulation technique</strong>
+      <br><br>
+      Le cours (110,50€) se situe à <strong>21% du move de référence</strong>, soit <strong>en dessous du premier support Fibonacci (23,6% = 115,95€)</strong>. Cette position est caractéristique d'une zone de <b>sous-shoot extrême</b> sans support Fibonacci identifié entre la base (65,74€) et le 23,6% (115,95€). Techniquement, le seul support de Fibonacci sous le cours actuel est le plancher absolu à 65,74€.
+      <br><br>
+      <strong>Résistances Fibonacci à surveiller :</strong> 23,6% = 115,95€ (résistance immédiate à reconquérir) → 38,2% = 147,01€ → 50% = 172,12€ → GR 61,8% = 197,22€.
+      <br><br>
+      <strong>RSI hebdomadaire à 24,10 → zone de survente EXTRÊME (&lt;30)</strong>. Historiquement, un RSI hebdo en dessous de 25 sur un titre de qualité est une zone de retournement potentiel. Ce signal ne garantit pas un rebond immédiat mais indique une capitulation avancée. <strong>Vigilance : un RSI peut rester bas longtemps si la tendance fondamentale est défavorable.</strong>
+      <br><br>
+      <strong>MACD Zéro Lag à -33,64 :</strong> En territoire très négatif, histogramme baissier. Aucun croisement haussier visible sur le graphique fourni.
+      <br><br>
+      <strong>Ichimoku (visible PRT) :</strong> Cours très nettement <b>sous le nuage</b> (visible en bleu/violet sur le graphique) → signal baissier confirmé MT. Le nuage est descendant. Un retour AU-DESSUS du nuage est un signal de retournement LT qui nécessiterait probablement un cours > 150-160€.
+      <br><br>
+      <strong>SMAs PRT :</strong> Cours (110,50€) sous SMA20, SMA50, SMA100 — toutes les moyennes sont au-dessus. Tendance baissière MT/LT confirmée.
+      <br><br>
+      <strong>Support horizontal rouge PRT visible :</strong> La ligne rouge horizontale vers ~170-172€ sur le graphique correspond au niveau 50% Fibonacci — anciennement support majeur, désormais résistance.
+    </div>
+  </section>
+</div>
+
+<!-- CONSENSUS ANALYSTES -->
+<div class="container">
+  <section>
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(192,132,252,0.1);">🏦</div>
+      <div><div class="section-title">Consensus analystes</div><div class="section-sub">7 établissements · Berenberg · Bernstein · Euroland · Gilbert Dupont · Oddo · Portzamparc · Stifel</div></div>
+    </div>
+
+    <div class="warn-box">
+      <strong>⚠ Déconnexion cours / objectifs analystes documentée :</strong> Avec un cours de 110,50€ et un objectif moyen de 212,57€, le potentiel théorique affiché est de +92%. Les 5 analystes suivis par Investing.com sont tous à <strong>Achat</strong>. Le plus bas objectif est 138€ — soit +25% vs cours actuel. Euroland Corporate a <strong>abaissé son objectif à 250€ (vs 285€)</strong> après FY2025 en maintenant Achat. <em class="source">Investing.com 13/03/2026 · Boursorama/FactSet</em>
+    </div>
+
+    <div class="table-wrap" style="margin-top:16px;">
+      <table>
+        <thead>
+          <tr><th>Analyste</th><th>Recommandation</th><th>Objectif de cours</th><th>Potentiel*</th><th>Date note</th><th>Statut</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-name">Euroland Corporate</td>
+            <td><span class="rec-strong">Achat</span></td>
+            <td class="td-green">250 € (vs 285€ préc.)</td>
+            <td class="td-green">+126%</td>
+            <td class="td-mono"><b>27/02/2026</b></td>
+            <td><span class="tag tag-green">✓ Post-résultats FY2025</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Berenberg</td>
+            <td><span class="rec-strong">Achat</span></td>
+            <td class="td-green">~260 € (est. haut)</td>
+            <td class="td-green">+135%</td>
+            <td class="td-mono">Non confirmé récemment</td>
+            <td><span class="tag tag-yellow">⚠ Date inconnue</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Oddo BHF</td>
+            <td><span class="rec-strong">Achat</span></td>
+            <td class="td-green">~200-230 € (est.)</td>
+            <td class="td-green">+81-108%</td>
+            <td class="td-mono">Non confirmé récemment</td>
+            <td><span class="tag tag-yellow">⚠ Date inconnue</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Gilbert Dupont</td>
+            <td><span class="rec-strong">Achat</span></td>
+            <td class="td-green">~180-200 € (est.)</td>
+            <td class="td-green">+63-81%</td>
+            <td class="td-mono">Non confirmé récemment</td>
+            <td><span class="tag tag-yellow">⚠ Date inconnue</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Stifel Nicolaus</td>
+            <td><span class="rec-strong">Achat</span></td>
+            <td class="td-green">~160-180 € (est.)</td>
+            <td class="td-green">+45-63%</td>
+            <td class="td-mono">Non confirmé récemment</td>
+            <td><span class="tag tag-yellow">⚠ Date inconnue</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Portzamparc</td>
+            <td><span class="rec-strong">Achat</span></td>
+            <td class="td-green">~138 € (est. bas)</td>
+            <td class="td-green">+25%</td>
+            <td class="td-mono">Non confirmé récemment</td>
+            <td><span class="tag tag-yellow">⚠ Date inconnue</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Bernstein Research</td>
+            <td><span class="rec-strong">Achat</span></td>
+            <td class="td-green">~180 € (est.)</td>
+            <td class="td-green">+63%</td>
+            <td class="td-mono">Non confirmé récemment</td>
+            <td><span class="tag tag-yellow">⚠ Date inconnue</span></td>
+          </tr>
+          <tr>
+            <td colspan="2" style="font-weight:700; color:var(--text);">CONSENSUS MOYEN (Investing.com)</td>
+            <td class="td-green" style="font-weight:700;">212,57 €</td>
+            <td class="td-green" style="font-weight:700;">+92%</td>
+            <td class="td-mono" colspan="2">Haut : 260€ · Bas : 138€ · 5 Achat / 0 Vente · Source : Investing.com 13/03/2026</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12px; color:var(--text-muted); margin-top:12px;">* Potentiel calculé sur la base du cours 110,50€ (PRT 13/03/2026). Les objectifs exacts de Berenberg, Oddo, Gilbert Dupont, Stifel, Portzamparc, Bernstein sont estimés à partir de la fourchette consensus 138-260€ — seul Euroland (250€, 27/02/2026) est confirmé. Établissements identifiés via Boursorama/FactSet. <em class="source">Boursorama Dividendes VU 13/03/2026</em></p>
+  </section>
+</div>
+
+<!-- ACTIONNARIAT -->
+<div class="container">
+  <section>
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(45,212,191,0.1);">👥</div>
+      <div><div class="section-title">Structure actionnariale</div><div class="section-sub">Post-cession partielle Walmart · Mars 2026</div></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Actionnaire</th><th>Type</th><th>% Capital (estimé)</th><th>Commentaire</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-name">Thierry Gadou + Management</td>
+            <td class="td-blue">Fondateur / Direction</td>
+            <td class="td-green">~15-20% (est.)</td>
+            <td>Alignement fort management/actionnaires</td>
+          </tr>
+          <tr>
+            <td class="td-name">Walmart</td>
+            <td class="td-orange">Client stratégique</td>
+            <td class="td-yellow">~10-15% (est. post-cession)</td>
+            <td><b>A cédé 650k actions</b> début 2026 → signal négatif symbolique · Reste actionnaire</td>
+          </tr>
+          <tr>
+            <td class="td-name">Institutionnels internationaux</td>
+            <td class="td-blue">Fonds tech/growth</td>
+            <td class="td-teal">~40-50%</td>
+            <td>Rotation de fonds croissance vers value probable depuis fin 2025</td>
+          </tr>
+          <tr>
+            <td class="td-name">Flottant + retail</td>
+            <td class="td-mono">Public</td>
+            <td class="td-mono">Solde</td>
+            <td>Pression vendeuse retail après -60% depuis pic</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="warn-box" style="margin-top:14px;">
+      <strong>⚠ Note :</strong> La structure précise du capital post-cession Walmart n'est pas disponible publiquement dans les sources consultées. Les pourcentages ci-dessus sont des estimations basées sur les informations disponibles. L'actionnariat exact est à vérifier sur le site IR de Vusion.
+    </div>
+  </section>
+</div>
+
+<!-- RISQUES DOCUMENTÉS -->
+<div class="container">
+  <section>
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(248,113,113,0.1);">⚠️</div>
+      <div><div class="section-title">Risques documentés — Ne pas minimiser</div><div class="section-sub">Facteurs de risque identifiés · Sources récentes</div></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Risque</th><th>Niveau</th><th>Détail documenté</th><th>Source</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-name">Concentration Walmart / Amériques</td>
+            <td><span class="tag tag-red">ÉLEVÉ</span></td>
+            <td>~73% du CA provient d'Amériques+APAC, avec Walmart comme client ultra-dominant. Walmart a réduit sa participation → risque de réduction du déploiement ou de renégociation. "Mur Walmart" évoqué lors de la conf FY2025.</td>
+            <td class="td-mono">CP FY2025 · Reuters</td>
+          </tr>
+          <tr>
+            <td class="td-name">Droits de douane Trump</td>
+            <td><span class="tag tag-red">ÉLEVÉ</span></td>
+            <td>Assemblage via EMS asiatiques (Chine notamment). Guidance 2026 conditionnée à "taux constants" — si les tarifs se durcissent, la guidance est compromise. Incertitude légale persistante sur les nouvelles surtaxes (Section 122, 150 jours max).</td>
+            <td class="td-mono">CP FY2025 · Wikipedia Tariffs</td>
+          </tr>
+          <tr>
+            <td class="td-name">Ralentissement EMEA T4 2025</td>
+            <td><span class="tag tag-yellow">MOYEN</span></td>
+            <td>CA EMEA T4 2025 : -25% — "climat des affaires moins favorable qu'attendu". L'EMEA représente ~27% du CA. La signature Carrefour est positive mais unique à ce stade. Le pipeline EMEA 2026 reste à confirmer.</td>
+            <td class="td-mono">CP FY2025</td>
+          </tr>
+          <tr>
+            <td class="td-name">Décote de valorisation persistante</td>
+            <td><span class="tag tag-yellow">MOYEN</span></td>
+            <td>-60% depuis le pic malgré des fondamentaux excellents → la décote peut persister longtemps (rotation sectorielle, prime de risque pays, désintérêt des fonds). Le PDG lui-même reconnait la "déconnexion". RSI hebdo à 24 peut rester bas.</td>
+            <td class="td-mono">Ecorama 02/03/2026</td>
+          </tr>
+          <tr>
+            <td class="td-name">Guidances 2026 limitées vs attentes</td>
+            <td><span class="tag tag-yellow">MOYEN</span></td>
+            <td">+15-20% pour 2026 vs +51% en 2025 — perçu comme fort ralentissement. Risque de déception si la croissance réelle est dans le bas de fourchette ou si les FX/tarifs dégradent la performance réelle. Prochain RDV : CA T1 le 21/04/2026.</td>
+            <td class="td-mono">Reuters 26/02/2026</td>
+          </tr>
+          <tr>
+            <td class="td-name">Modèle VAS encore émergent</td>
+            <td><span class="tag tag-teal">FAIBLE-MOYEN</span></td>
+            <td>Les VAS représentent 14% du CA (211 M€) — encore loin d'un modèle SaaS pur. La transition hardware → récurrent prend du temps et les investisseurs peuvent se montrer impatients.</td>
+            <td class="td-mono">CP FY2025</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<!-- PERSPECTIVES -->
+<div class="container">
+  <section>
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(192,132,252,0.1);">🔭</div>
+      <div><div class="section-title">Perspectives par horizon</div><div class="section-sub">Catalyseurs &amp; risques · CT / MT / LT</div></div>
+    </div>
+    <div class="perspectives-grid">
+      <div class="persp-card">
+        <div class="persp-header">
+          <span style="font-size:18px;">⚡</span>
+          <div><div class="persp-label">Court Terme</div><span class="persp-horizon ct">T1–T2 2026</span></div>
+        </div>
+        <ul class="persp-list">
+          <li class="pos">Programme rachat 30 M€ en cours → soutien technique au cours</li>
+          <li class="pos">CA T1 2026 le 21/04 → 1er test de la guidance +15-20%</li>
+          <li class="pos">RSI hebdo 24 → zone de survente extrême → rebond technique possible</li>
+          <li class="pos">Contrat Carrefour → signal EMEA redémarrant</li>
+          <li class="neg">Aucun catalyseur fondamental majeur d'ici au 21/04</li>
+          <li class="neg">Tendance technique baissière CT/MT/LT confirmée</li>
+          <li class="warn">Cours sous tous les supports Fibonacci → risque vers 65,74€ si capitulation</li>
+        </ul>
+      </div>
+      <div class="persp-card">
+        <div class="persp-header">
+          <span style="font-size:18px;">📡</span>
+          <div><div class="persp-label">Moyen Terme</div><span class="persp-horizon mt">S2 2026 – 2027</span></div>
+        </div>
+        <ul class="persp-list">
+          <li class="pos">Résultats S1 2026 le 30/07 → validation ou non de la guidance</li>
+          <li class="pos">Croissance VAS +40% → montée en puissance du récurrent</li>
+          <li class="pos">Nouveaux contrats EMEA attendus (rebond post-Carrefour)</li>
+          <li class="pos">Trésorerie 439 M€ → opportunité d'acquisition externe possible</li>
+          <li class="warn">Règlement tarifs Trump (150j → juillet 2026) → clarification nécessaire</li>
+          <li class="neg">Nécessité de reconquérir le 23,6% Fibonacci (115,95€) puis le 38,2% (147€)</li>
+        </ul>
+      </div>
+      <div class="persp-card">
+        <div class="persp-header">
+          <span style="font-size:18px;">🌟</span>
+          <div><div class="persp-label">Long Terme</div><span class="persp-horizon lt">2027-2028+</span></div>
+        </div>
+        <ul class="persp-list">
+          <li class="pos">Plan Vusion'27 → objectifs ambitieux de rentabilité et diversification</li>
+          <li class="pos">VAS récurrent → si 30-40% du CA, multiple de valorisation transformé</li>
+          <li class="pos">Expansion Retail Media → marché in-store gigantesque</li>
+          <li class="pos">Leader mondial sans concurrent de taille comparable sur les ESL premium</li>
+          <li class="neg">Risque de perte de momentum sur Walmart si déploiement ralentit</li>
+          <li class="warn">Valorisation actuelle ~1,86 Mds€ vs trésorerie 439 M€ → VE implicite ~1,42 Mds€ → <1x CA 2025</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- MON AVIS -->
+<div class="container">
+  <section>
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(251,191,36,0.1);">💡</div>
+      <div><div class="section-title">Mon avis personnel</div><div class="section-sub">Analyse subjective · NPC · 14/03/2026</div></div>
+    </div>
+
+    <div class="verdict-box bullish" style="margin-bottom:16px;">
+      <div class="verdict-title">✅ Le dossier fondamental — Exceptionnellement solide</div>
+      <p class="verdict-text">
+        Vusion présente un paradoxe boursier rare : <b>des fondamentaux de premier ordre (CA +51%, EBITDA +73%, FCF positif, trésorerie nette 439 M€, dividende +50%) associés à un cours divisé par 2,5 depuis son pic</b>. La société est leader mondiale incontestée de son marché, avec des barrières à l'entrée élevées, un carnet de commandes de 1,7 Md€ et un PDG aligné qui rachète ses propres actions.
+        <br><br>
+        La valorisation actuelle est objectivement déconnectée de la réalité opérationnelle : capitalisation de ~1,86 Mds€ pour une société dégageant 99 M€ de résultat net ajusté et 439 M€ de trésorerie nette → valeur d'entreprise implicite de <b>~1,42 Mds€ pour une société en croissance +15-20% avec un modèle récurrent qui monte</b>. C'est une valorisation de société en déclin, pas d'un leader mondial IoT.
+      </p>
+    </div>
+
+    <div class="verdict-box bearish" style="margin-bottom:16px;">
+      <div class="verdict-title">🔴 La réalité technique — Configuration de capitulation avancée</div>
+      <p class="verdict-text">
+        Techniquement, la situation est dégradée : <b>cours sous tous les supports Fibonacci, RSI hebdo à 24 (survente extrême), MACD très négatif, Ichimoku baissier, cours sous toutes les SMAs</b>. Le marché "a toujours raison" à court terme et peut rester irrationnel longtemps. La résistance immédiate est le 23,6% Fibonacci à 115,95€ — un niveau que le cours était encore incapable de franchir au 13/03.
+        <br><br>
+        Les risques réels documentés sont significatifs : concentration Walmart, droits de douane Trump sur les EMS asiatiques, guidance 2026 perçue comme décevante. <b>La décote peut persister si ces facteurs d'incertitude restent non résolus.</b>
+      </p>
+    </div>
+
+    <div class="alert alert-yellow">
+      <span class="alert-icon">⚖️</span>
+      <div class="alert-body">
+        <div class="alert-title">Verdict personnel : VALEUR DE RETOURNEMENT — Entrée par paliers pour profil patient</div>
+        <p class="alert-text">Vusion est une des rares situations où le <b>potentiel de retournement est asymétrique</b> : une société profitable, leader mondiale, avec 439 M€ de cash, qui cote ~1x son CA. Le <b>programme de rachat 30 M€</b> et la <b>visioconférence du 12/03</b> signalent un management en mode défensif. Le RSI hebdo à 24 est statistiquement une zone de rebond potentiel.<br><br>
+        <b>Stratégie suggérée pour profil patient (horizon 12-24 mois) :</b> Entrée progressive par paliers — 1/3 maintenant (RSI survente), 1/3 si retour vers 90-95€ (proche plancher 52S 105€), 1/3 sur confirmation technique (reconquête du 23,6% à 115,95€). Stop mental sous 65,74€ (base Fibonacci PRT). Cible MT : retour vers le 38,2% (147€) puis le 50% (172€). Cette valeur N'EST PAS adaptée à un horizon CT ou à un profil ne supportant pas la volatilité.</p>
+      </div>
+    </div>
+
+    <div class="key-levels" style="margin-top:24px;">
+      <div class="level-tag current">
+        <span class="level-tag-label">Cours actuel</span>
+        <span class="level-tag-value">110,50 €</span>
+      </div>
+      <div class="level-tag stop">
+        <span class="level-tag-label">Plus bas 52S</span>
+        <span class="level-tag-value">105,10 €</span>
+      </div>
+      <div class="level-tag stop">
+        <span class="level-tag-label">Base Fib 0%</span>
+        <span class="level-tag-value">65,74 €</span>
+      </div>
+      <div class="level-tag resist">
+        <span class="level-tag-label">Résist. 23,6% Fibo</span>
+        <span class="level-tag-value">115,95 €</span>
+      </div>
+      <div class="level-tag target">
+        <span class="level-tag-label">Cible 1 · 38,2%</span>
+        <span class="level-tag-value">147,01 €</span>
+      </div>
+      <div class="level-tag target">
+        <span class="level-tag-label">Cible 2 · 50%</span>
+        <span class="level-tag-value">172,12 €</span>
+      </div>
+      <div class="level-tag target">
+        <span class="level-tag-label">Cible 3 · GR 61,8%</span>
+        <span class="level-tag-value">197,22 €</span>
+      </div>
+      <div class="level-tag target">
+        <span class="level-tag-label">Objectif moyen analyste</span>
+        <span class="level-tag-value">212,57 €</span>
+      </div>
+      <div class="level-tag target">
+        <span class="level-tag-label">100% Fibo · Pic</span>
+        <span class="level-tag-value">278,49 €</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="container">
+  <footer>
+    <p><strong>VUSION (VU)</strong> · Analyse Forum · Euronext Paris · SBF 120 · FR0010282822</p>
+    <p>Rédigé le <strong>14 mars 2026</strong> · Sources : Vusion IR (communiqués officiels), Actusnews Wire, Reuters, Boursorama, Zonebourse, Investing.com, Idéal Investisseur, Ecorama, EurolandCorporate, Yahoo Finance · Graphique ProRealTime hebdomadaire fourni</p>
+    <p style="margin-top:8px; color:#3a4460;">⚠ <strong>NPC — Pas un Conseil en Placement.</strong> Pas de relation commerciale avec Vusion ou ses partenaires. L'auteur peut détenir ou ne pas détenir de positions. Tout investissement implique un risque de perte en capital. Corrigez-moi si vous constatez une erreur factuelle avec source.</p>
+    <p style="margin-top:6px; color:#2a3356; font-size:11px;">Méthodologie basée sur le prompt d'analyse élaboré sur VusionGroup, 2CRSI, Median Technologies, DBV Technologies, Amoeba, Nvidia, Kalray, Rocket Lab, Sensorion, Egide, THX Pharma, Abionyx, Crossject · Mars 2026</p>
+  </footer>
+</div>
+
+</body>
+</html>
